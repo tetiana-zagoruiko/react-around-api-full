@@ -34,7 +34,6 @@ module.exports.login = (req, res, next) => {
 
 module.exports.getAllUsers = (req, res, next) => {
   User.find({})
-    .then(user => res.send({ data: user }))
     .then((user) => {
       if (!user) {
         throw new NotFoundError('No users found');
