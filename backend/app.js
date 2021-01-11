@@ -3,7 +3,7 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const auth = require('./middlewares/auth');
 const { requestLogger, errorLogger } = require('./middlewares/logger'); 
-const { PORT = 5000 } = process.env;
+const { PORT = 6000 } = process.env;
 const app = express();
 const { errors } = require('celebrate');
 
