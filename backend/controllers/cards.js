@@ -26,7 +26,7 @@ module.exports.getAllCards = (req, res, next) => {
       if (!card) {
         throw new NotFoundError('No cards found');
       }
-      res.send(card)
+      res.send({ data: card })
     })
     .catch(next);
 };

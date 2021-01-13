@@ -44,7 +44,7 @@ module.exports.getAllUsers = (req, res, next) => {
 };
 
 module.exports.getUserByID = (req, res, next) => {
-  User.findOne({ _id: req.params.id })
+  User.findById(req.params.id)
     .then((user) => {
       if (!user) {
         throw new NotFoundError('No user with matching ID found');

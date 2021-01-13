@@ -3,7 +3,7 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const auth = require('./middlewares/auth');
 const { requestLogger, errorLogger } = require('./middlewares/logger'); 
-const { PORT = 6000 } = process.env;
+const { PORT = 3000 } = process.env;
 const app = express();
 const { errors } = require('celebrate');
 
@@ -13,7 +13,7 @@ const { login, createUser } = require('./controllers/users');
 
 
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({ extended: false }));
 
 mongoose.connect('mongodb://localhost:27017/aroundb', {
   useNewUrlParser: true,
