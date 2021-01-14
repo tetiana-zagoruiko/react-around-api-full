@@ -142,6 +142,7 @@ function App() {
   function handleRegister(password, email) {
     auth.register(password, email)
       .then((res) => {
+        console.log(res);
         if (!res || res.statusCode === 400) {
           openingInfoTooltip(false);
         } else {

@@ -1,3 +1,5 @@
+const jwt = localStorage.getItem('jwt');
+
 class Api {
     constructor({baseUrl, headers}) {
         this._baseUrl = baseUrl;
@@ -78,9 +80,9 @@ class Api {
 }
 
 const api = new Api({
-    baseUrl: "https://around.nomoreparties.co/v1/group-3",
+    baseUrl: "https://tanya.zagoruiko.students.nomoreparties.site",
     headers: {
-        authorization: "bbe6c8a6-0cbf-4192-8ad0-65526caf9994",
+        authorization: jwt,
         "Content-Type": "application/json"
     }
 });

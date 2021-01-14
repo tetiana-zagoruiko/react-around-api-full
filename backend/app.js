@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const auth = require('./middlewares/auth');
+const cors = require('cors')
 const { requestLogger, errorLogger } = require('./middlewares/logger'); 
 const { PORT = 3000 } = process.env;
 const app = express();
@@ -11,9 +12,8 @@ const usersRouter = require('./routes/users');
 const cardsRouter = require('./routes/cards');
 const { login, createUser } = require('./controllers/users');
 
-
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cors());
+app.options('*', cors());
 
 mongoose.connect('mongodb://localhost:27017/aroundb', {
   useNewUrlParser: true,
@@ -22,6 +22,8 @@ mongoose.connect('mongodb://localhost:27017/aroundb', {
   useUnifiedTopology: true
 });
 
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
 app.use(requestLogger);
 
@@ -42,6 +44,11 @@ app.get('*', (req, res) => {
 app.use(errorLogger);
 
 app.use(errors());
+
+app.use(((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
+  next();
+})); 
 
 app.use((err, req, res, next) => {
   const { statusCode = 500, message } = err;
