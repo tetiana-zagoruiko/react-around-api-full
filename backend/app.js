@@ -17,7 +17,7 @@ app.options('*', cors());
 
 app.use('/api', require('../router'));
 
-app.use(express.static(path.join(__dirname, 'public'))); 
+app.use(express.static(path.join(__dirname, 'build'))); 
 
 mongoose.connect('mongodb://localhost:27017/aroundb', {
   useNewUrlParser: true,
