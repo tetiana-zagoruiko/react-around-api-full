@@ -3,7 +3,6 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const auth = require('./middlewares/auth');
 const cors = require('cors');
-const path = require('path');
 const { requestLogger, errorLogger } = require('./middlewares/logger'); 
 const { PORT = 3000 } = process.env;
 const app = express();
@@ -16,9 +15,6 @@ const { login, createUser } = require('./controllers/users');
 app.use(cors());
 app.options('*', cors());
 
-app.use('/api', require('../router'));
-
-app.use(express.static(path.join(__dirname, 'public'))); 
 
 mongoose.connect('mongodb://localhost:27017/aroundb', {
   useNewUrlParser: true,
