@@ -80,7 +80,7 @@ class Api {
 }
 
 const api = new Api({
-    baseUrl: "https://tanya.zagoruiko.students.nomoreparties.site",
+    baseUrl: "https://api.tzag.students.nomoreparties.site",
     headers: {
         authorization: jwt,
         "Content-Type": "application/json"

@@ -1,4 +1,4 @@
-export const BASE_URL = 'https://tanya.zagoruiko.students.nomoreparties.site';
+export const BASE_URL = 'https://api.tzag.students.nomoreparties.site';
 
 export const register = (password, email) => {
   return fetch(`${BASE_URL}/signup`, {

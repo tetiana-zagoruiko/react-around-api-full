@@ -15,6 +15,10 @@ const { login, createUser } = require('./controllers/users');
 app.use(cors());
 app.options('*', cors());
 
+app.use('/api', require('../router'));
+
+app.use(express.static(path.join(__dirname, 'public'))); 
+
 mongoose.connect('mongodb://localhost:27017/aroundb', {
   useNewUrlParser: true,
   useCreateIndex: true,
