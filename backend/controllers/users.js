@@ -73,5 +73,12 @@ module.exports.updateAvatar = (req, res, next) => {
 
 
 module.exports.getUserInfo = (req, res) => {
-  res.send(req.user._id);
+  User.findOne({ _id: req.user._id })
+    .then((user) => {
+      if (!user) {
+        throw new NotFoundError('No user with matching ID found');
+      }
+      res.send({ data: user })
+    })
+    .catch(next);
 };
