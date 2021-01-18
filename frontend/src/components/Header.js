@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import logoPath from "../images/logo.svg";
 
 function Header({userMail, headerText, headerLink, headerAction}) {
@@ -10,7 +11,7 @@ function Header({userMail, headerText, headerLink, headerAction}) {
                     <img src={logoPath} alt="logo" className="logo" />
                         <div className="header__container-right">
                             <p className="header__email">{userMail}</p>
-                            <a href={headerLink} onClick={headerAction} className="header__text">{headerText}</a>
+                        <Link to={headerLink} onClick={headerAction} className=" header__text">{headerText}</Link>
                         </div>
                     </div>
                 </header>

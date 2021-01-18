@@ -11,6 +11,9 @@ module.exports.createUser = (req, res, next) => {
     .then(hash => User.create({
       email: req.body.email,
       password: hash,
+      name: "Jacques Cousteau",
+      about: "Explorer",
+      avatar: "https://pictures.s3.yandex.net/resources/avatar_1604080799.jpg",
     }))
     .then((user) => {
       if (!user) {
