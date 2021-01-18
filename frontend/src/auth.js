@@ -1,4 +1,4 @@
-export const BASE_URL = "https://api.tzpract.students.nomoreparties.site";
+export const BASE_URL = "http://api.tzpract.students.nomoreparties.site";
 
 export const register = (password, email) => {
   return fetch(`${BASE_URL}/signup`, {
@@ -10,19 +10,13 @@ export const register = (password, email) => {
     body: JSON.stringify({ "password": password, "email": email})
   })
     .then((response) => {
-      try {
-        if (response.status === 201) {
-          return response.json();
-        }
-      } catch (e) {
-        return (e)
-      }
+      return response.json();
     })
     .then((res) => {
       return res;
     })
     .catch((err) => console.log(err));
-}; 
+};
 
 export const authorize = (password, email, ) => {
   return fetch(`${BASE_URL}/signin`, {

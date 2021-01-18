@@ -35,7 +35,6 @@ function App() {
   const [selectedCardName, setSelectedCardName] = React.useState("");
 
   const [currentUser, setCurrentUser] = React.useState({});
-  const [userMail, setUserMail] = React.useState('');
   const [loggedIn, setLoggedIn] = React.useState(false);
   const history = useHistory();
 
@@ -52,15 +51,13 @@ function App() {
       .catch(err => console.log(err))
   }, [])
 
-
   React.useEffect(() => {
     const jwt = localStorage.getItem('jwt');
     if (jwt) {
       auth.checkToken(jwt)
       .then((res) => {
-          setLoggedIn(true);
-          setUserMail(res.data.email);
-          history.push("/");
+        setLoggedIn(true);
+        history.push("/");
       })
       .catch(err => console.log(err));
     }
@@ -68,6 +65,7 @@ function App() {
 
   const onSignOut = () => {
     localStorage.removeItem('jwt');
+    setCurrentUser({});
     setLoggedIn(false);
   }
 
@@ -120,7 +118,7 @@ function App() {
   function handleAddPlaceSubmit({ name, link }) {
     api.addCard({ name, link })
       .then(res => {
-        const addedCardList = cards.concat(res)
+        const addedCardList = cards.unshift(res)
         setCards(addedCardList);
         closeAllPopups();
       })
@@ -228,7 +226,6 @@ function App() {
               onCardDelete={handleCardDelete}
               cards={cards}
               onSignOut={onSignOut}
-              userMail={userMail}
               component={Main}
               />
           </Switch>

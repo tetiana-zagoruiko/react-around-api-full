@@ -4,27 +4,27 @@ import CurrentUserContext from '../contexts/CurrentUserContext.js';
 import Header from './Header.js';
 import Footer from './Footer.js';
 
-function Main({ onEditProfile, onAddPlace, onEditAvatar, onCardClick, cards, onCardLike, onCardDelete, onSignOut, userMail}) {
+function Main({ onEditProfile, onAddPlace, onEditAvatar, onCardClick, cards, onCardLike, onCardDelete, onSignOut}) {
 
     const currentUser = React.useContext(CurrentUserContext);
     
     return (
-        
+        <CurrentUserContext.Provider value={currentUser}>
         <div>
             <Header
                 headerText={"Sign out"}
                 headerLink={"/signin"}
                 headerAction={onSignOut}
-                userMail={userMail}
+                userMail={currentUser.data.email}
             />
                 <main className="main">
                     <section className="profile">
                         <div className="profile__container">
-                        <img src={currentUser.avatar} alt="avatar" className="profile__avatar" onClick={onEditAvatar}/>
+                        <img src={currentUser.data.avatar} alt="avatar" className="profile__avatar" onClick={onEditAvatar}/>
                             <div className="profile__card">
-                            <h1 className="profile__name">{currentUser.name}</h1>
+                            <h1 className="profile__name">{currentUser.data.name}</h1>
                             <button className="profile__edit" onClick={onEditProfile}></button>
-                            <p className="profile__title">{currentUser.about}</p>
+                            <p className="profile__title">{currentUser.data.about}</p>
                             </div>
                         <button className="profile__add" onClick={onAddPlace}></button>
                         </div>
@@ -46,6 +46,7 @@ function Main({ onEditProfile, onAddPlace, onEditAvatar, onCardClick, cards, onC
                 </main>
             <Footer />
         </div>
+        </CurrentUserContext.Provider>
     );
 }
 

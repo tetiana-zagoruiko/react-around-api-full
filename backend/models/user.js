@@ -18,8 +18,8 @@ const userSchema = new mongoose.Schema({
   },
   avatar: {
     type: String,
-    validate: /(^https?:\/\/)(w{3}\.)?\w[\w-]{1,}\.\w[\w\/]{1,}\/?/gi,
-    default: "https://pictures.s3.yandex.net/resources/avatar_1604080799.jpg"
+    default: "https://pictures.s3.yandex.net/resources/avatar_1604080799.jpg",
+    validate: /(^https?:\/\/)(w{3}\.)?\w[\w-]{1,}\.\w[\w\/]{1,}\/?/gi 
   },
   email: {
     type: String,

@@ -5,12 +5,13 @@ function Card({ card, onCardClick, onCardLike, onCardDelete}) {
 
     const currentUser = React.useContext(CurrentUserContext);
 
-    const isOwn = card.owner._id === currentUser._id;
+    const isOwn = card.owner === currentUser.data._id;
     const cardDeleteButtonClassName = (
         `${isOwn ? 'photo__remove' : 'photo__remove_hide '}`
     );
     
-    const isLiked = card.likes.some(i => i._id === currentUser._id);
+    const isLiked = card.likes.some(i => i._id === currentUser.data._id);
+    console.log(card.likes);
     const cardLikeButtonClassName = (
         `${isLiked ? 'photo__like_active' : 'photo__like-button '}`
     );

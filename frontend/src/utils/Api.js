@@ -1,4 +1,4 @@
-const jwt = localStorage.getItem('jwt');
+const token = localStorage.getItem('jwt');
 
 class Api {
     constructor({baseUrl, headers}) {
@@ -80,10 +80,11 @@ class Api {
 }
 
 const api = new Api({
-    baseUrl: "https://api.tzpract.students.nomoreparties.site",
+    baseUrl: "http://api.tzpract.students.nomoreparties.site",
     headers: {
-        authorization: jwt,
-        "Content-Type": "application/json"
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
     }
 });
 

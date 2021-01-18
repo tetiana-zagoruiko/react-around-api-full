@@ -12,10 +12,7 @@ module.exports.postCard = (req, res, next) => {
 
   Card.create({ name, link, owner })
     .then((card) => {
-      if (!card) {
-        throw new InvalidDataError('Ivalid data passed');
-      }
-      res.send({ data: card })
+      res.send(card)
     })
     .catch(next);
 };
@@ -26,7 +23,7 @@ module.exports.getAllCards = (req, res, next) => {
       if (!card) {
         throw new NotFoundError('No cards found');
       }
-      res.send({ data: card })
+      res.send(card)
     })
     .catch(next);
 };
