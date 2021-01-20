@@ -1,30 +1,27 @@
 import React from 'react';
 import Card from './Card.js';
-import CurrentUserContext from '../contexts/CurrentUserContext.js';
 import Header from './Header.js';
 import Footer from './Footer.js';
 
-function Main({ onEditProfile, onAddPlace, onEditAvatar, onCardClick, cards, onCardLike, onCardDelete, onSignOut}) {
+function Main({ onEditProfile, onAddPlace, onEditAvatar, onCardClick, cards, onCardLike, onCardDelete, onSignOut, userMail, userName, userAbout, userAvatar, userId}) {
+    console.log(cards);
 
-    const currentUser = React.useContext(CurrentUserContext);
-    
     return (
-        <CurrentUserContext.Provider value={currentUser}>
         <div>
             <Header
                 headerText={"Sign out"}
                 headerLink={"/signin"}
                 headerAction={onSignOut}
-                userMail={currentUser.data.email}
+                userMail={userMail}
             />
                 <main className="main">
                     <section className="profile">
                         <div className="profile__container">
-                        <img src={currentUser.data.avatar} alt="avatar" className="profile__avatar" onClick={onEditAvatar}/>
+                        <img src={userAvatar} alt="avatar" className="profile__avatar" onClick={onEditAvatar}/>
                             <div className="profile__card">
-                            <h1 className="profile__name">{currentUser.data.name}</h1>
+                                <h1 className="profile__name">{userName}</h1>
                             <button className="profile__edit" onClick={onEditProfile}></button>
-                            <p className="profile__title">{currentUser.data.about}</p>
+                                <p className="profile__title">{userAbout}</p>
                             </div>
                         <button className="profile__add" onClick={onAddPlace}></button>
                         </div>
@@ -39,6 +36,7 @@ function Main({ onEditProfile, onAddPlace, onEditAvatar, onCardClick, cards, onC
                                     card={card}
                                     onCardLike={onCardLike}
                                     onCardDelete={onCardDelete}
+                                    userId={userId}
                                 />)
                         }
                         </ul>
@@ -46,7 +44,6 @@ function Main({ onEditProfile, onAddPlace, onEditAvatar, onCardClick, cards, onC
                 </main>
             <Footer />
         </div>
-        </CurrentUserContext.Provider>
     );
 }
 

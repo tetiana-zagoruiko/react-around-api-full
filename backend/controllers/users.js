@@ -19,7 +19,8 @@ module.exports.createUser = (req, res, next) => {
       if (!user) {
         throw new InvalidDataError('Ivalid data passed');
       }
-      res.send({ data: user })
+      console.log("backend signup")
+      res.send(user)
     })
     .catch(next);
 };

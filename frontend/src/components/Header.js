@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import logoPath from "../images/logo.svg";
 
-function Header({userMail, headerText, headerLink, headerAction}) {
+function Header({ headerText, headerLink, headerAction, userMail}) {
     
     return (
         <div>
@@ -10,7 +10,7 @@ function Header({userMail, headerText, headerLink, headerAction}) {
                     <div className="header__container">
                     <img src={logoPath} alt="logo" className="logo" />
                         <div className="header__container-right">
-                            <p className="header__email">{userMail}</p>
+                        <p className="header__email">{userMail}</p>
                         <Link to={headerLink} onClick={headerAction} className=" header__text">{headerText}</Link>
                         </div>
                     </div>

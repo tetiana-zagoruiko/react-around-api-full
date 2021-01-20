@@ -35,6 +35,11 @@ function App() {
   const [selectedCardName, setSelectedCardName] = React.useState("");
 
   const [currentUser, setCurrentUser] = React.useState({});
+  const [userMail, setUserMail] = React.useState("");
+  const [userName, setUserName] = React.useState("");
+  const [userAbout, setUserAbout] = React.useState("");
+  const [userAvatar, setUserAvatar] = React.useState("");
+  const [userId, setUserId] = React.useState("");
   const [loggedIn, setLoggedIn] = React.useState(false);
   const history = useHistory();
 
@@ -42,6 +47,11 @@ function App() {
     api.getUserInfo()
       .then(res => {
         setCurrentUser(res);
+        setUserMail(res.data.email);
+        setUserAvatar(res.data.avatar);
+        setUserName(res.data.name);
+        setUserAbout(res.data.about);
+        setUserId(res.data._id);
       })
       .catch(err => console.log(err));
     api.getCardList()
@@ -67,10 +77,11 @@ function App() {
     localStorage.removeItem('jwt');
     setCurrentUser({});
     setLoggedIn(false);
+    setUserMail("");
   }
 
   function handleCardLike(card) {
-    const isLiked = card.card.likes.some(i => i._id === currentUser._id);
+    const isLiked = card.card.likes.some(i => i === userId);
     api.changeLikeCardStatus(card.card._id, !isLiked)
       .then((newCard) => {
       const newCards = cards.map((c) => c._id === newCard._id ? newCard : c);
@@ -110,7 +121,7 @@ function App() {
     api.setUserAvatar(avatar)
       .then(res => {
         closeAllPopups();
-        setCurrentUser(res);
+        setUserAvatar(res.data.avatar);
       })
       .catch(err => console.log(err))
   }
@@ -118,7 +129,8 @@ function App() {
   function handleAddPlaceSubmit({ name, link }) {
     api.addCard({ name, link })
       .then(res => {
-        const addedCardList = cards.unshift(res)
+        console.log(res);
+        const addedCardList = cards.push(res)
         setCards(addedCardList);
         closeAllPopups();
       })
@@ -140,8 +152,8 @@ function App() {
   function handleRegister(password, email) {
     auth.register(password, email)
       .then((res) => {
-        console.log(res);
-        if (!res || res.statusCode === 400) {
+        console.log("here", res);
+        if (!res || res.statusCode === 400 || res.statusCode === 500) {
           openingInfoTooltip(false);
         } else {
           openingInfoTooltip(true);
@@ -175,6 +187,7 @@ function App() {
               <Header 
                 headerText={"Sign up"}
                 headerLink={"/signup"}
+                userMail={userMail}
               />
               <Login 
                 handleLogin={handleLogin}
@@ -226,6 +239,11 @@ function App() {
               onCardDelete={handleCardDelete}
               cards={cards}
               onSignOut={onSignOut}
+              userMail={userMail}
+              userName={userName}
+              userAbout={userAbout}
+              userAvatar={userAvatar}
+              userId={userId}
               component={Main}
               />
           </Switch>
