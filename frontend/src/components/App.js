@@ -109,8 +109,6 @@ function App() {
   function handleUpdateAvatar(avatar) {
     api.setUserAvatar(avatar)
       .then(res => {
-        console.log("here");
-        console.log(res.data);
         closeAllPopups();
         setCurrentUser(res.data);
       })
@@ -157,6 +155,7 @@ function App() {
     auth.authorize(password, email)
       .then((data) => {
         if (data[1]) {
+          localStorage.setItem("jwt", data[1]);
           setLoggedIn(true);
           setCurrentUser(data[0]);
           history.push("/")
