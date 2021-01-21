@@ -41,7 +41,6 @@ function App() {
   React.useEffect(() => {
     api.getUserInfo()
       .then(res => {
-        console.log(res.data);
         setCurrentUser(res.data);
       })
       .catch(err => console.log(err));
@@ -74,7 +73,7 @@ function App() {
     const isLiked = card.card.likes.some(i => i === currentUser._id);
     api.changeLikeCardStatus(card.card._id, !isLiked)
       .then((newCard) => {
-      const newCards = cards.map((c) => c._id === newCard._id ? newCard : c);
+      const newCards = cards.map((c) => c._id === newCard.data._id ? newCard.data : c);
       setCards(newCards);
     })
       .catch(err => console.log(err));
@@ -157,8 +156,9 @@ function App() {
   function handleLogin(password, email) {
     auth.authorize(password, email)
       .then((data) => {
-        if (data.token) {
+        if (data[1]) {
           setLoggedIn(true);
+          setCurrentUser(data[0]);
           history.push("/")
         } else {
           openingInfoTooltip(false);
