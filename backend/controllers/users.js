@@ -60,13 +60,13 @@ module.exports.getUserByID = (req, res, next) => {
 
 module.exports.updateProfile = (req, res, next) => {
   const { name, about } = req.body;
-  User.findByIdAndUpdate(req.user._id, { name: name, about: about })
+  User.findByIdAndUpdate(req.user._id, { name: name, about: about }, { new: true })
     .then(user => res.send({ data: user }))
     .catch(next);
 };
 
 module.exports.updateAvatar = (req, res, next) => {
-  User.findByIdAndUpdate(req.user._id, req.body)
+  User.findByIdAndUpdate(req.user._id, req.body, { new: true })
     .then(user => res.send({ data: user }))
     .catch(next);
 };

@@ -35,23 +35,14 @@ function App() {
   const [selectedCardName, setSelectedCardName] = React.useState("");
 
   const [currentUser, setCurrentUser] = React.useState({});
-  const [userMail, setUserMail] = React.useState("");
-  const [userName, setUserName] = React.useState("");
-  const [userAbout, setUserAbout] = React.useState("");
-  const [userAvatar, setUserAvatar] = React.useState("");
-  const [userId, setUserId] = React.useState("");
   const [loggedIn, setLoggedIn] = React.useState(false);
   const history = useHistory();
 
   React.useEffect(() => {
     api.getUserInfo()
       .then(res => {
-        setCurrentUser(res);
-        setUserMail(res.data.email);
-        setUserAvatar(res.data.avatar);
-        setUserName(res.data.name);
-        setUserAbout(res.data.about);
-        setUserId(res.data._id);
+        console.log(res.data);
+        setCurrentUser(res.data);
       })
       .catch(err => console.log(err));
     api.getCardList()
@@ -77,11 +68,10 @@ function App() {
     localStorage.removeItem('jwt');
     setCurrentUser({});
     setLoggedIn(false);
-    setUserMail("");
   }
 
   function handleCardLike(card) {
-    const isLiked = card.card.likes.some(i => i === userId);
+    const isLiked = card.card.likes.some(i => i === currentUser._id);
     api.changeLikeCardStatus(card.card._id, !isLiked)
       .then((newCard) => {
       const newCards = cards.map((c) => c._id === newCard._id ? newCard : c);
@@ -120,8 +110,9 @@ function App() {
   function handleUpdateAvatar(avatar) {
     api.setUserAvatar(avatar)
       .then(res => {
+        console.log(res.data);
         closeAllPopups();
-        setUserAvatar(res.data.avatar);
+        setCurrentUser(res.data);
       })
       .catch(err => console.log(err))
   }
@@ -129,8 +120,7 @@ function App() {
   function handleAddPlaceSubmit({ name, link }) {
     api.addCard({ name, link })
       .then(res => {
-        console.log(res);
-        const addedCardList = cards.push(res)
+        const addedCardList = cards.concat(res)
         setCards(addedCardList);
         closeAllPopups();
       })
@@ -152,7 +142,6 @@ function App() {
   function handleRegister(password, email) {
     auth.register(password, email)
       .then((res) => {
-        console.log("here", res);
         if (!res || res.statusCode === 400 || res.statusCode === 500) {
           openingInfoTooltip(false);
         } else {
@@ -187,7 +176,6 @@ function App() {
               <Header 
                 headerText={"Sign up"}
                 headerLink={"/signup"}
-                userMail={userMail}
               />
               <Login 
                 handleLogin={handleLogin}
@@ -239,11 +227,6 @@ function App() {
               onCardDelete={handleCardDelete}
               cards={cards}
               onSignOut={onSignOut}
-              userMail={userMail}
-              userName={userName}
-              userAbout={userAbout}
-              userAvatar={userAvatar}
-              userId={userId}
               component={Main}
               />
           </Switch>
