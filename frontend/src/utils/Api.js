@@ -1,28 +1,42 @@
-const token = localStorage.getItem('jwt');
-
 class Api {
     constructor({baseUrl, headers}) {
-        this._baseUrl = baseUrl;
-        this._headers = headers; 
+        this._baseUrl = "https://www.api.tzpract.students.nomoreparties.site";
+        this._headers = {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
+        }; 
     }
 
     getCardList() {
         return fetch(this._baseUrl + '/cards', {
-            headers: this._headers
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
+            }
         })
         .then(res => res.ok ? res.json() : Promise.reject('Error' + res.statusText))
     }
 
     getUserInfo() { 
         return fetch(this._baseUrl + '/users/me', {
-            headers: this._headers
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
+            }
         })
         .then(res => res.ok ? res.json() : Promise.reject('Error' + res.statusText))
     }
 
     addCard({ name, link}) {
         return fetch(this._baseUrl + '/cards', {
-            headers: this._headers,
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
+            },
             method: "POST",
             body: JSON.stringify({
                 name,
@@ -34,7 +48,11 @@ class Api {
 
     removeCard(cardID) {
         return fetch(this._baseUrl + '/cards/' + cardID, {
-            headers: this._headers,
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
+            },
             method: "DELETE"
         })
         .then(res => res.ok ? res.json() : Promise.reject('Error' + res.statusText))
@@ -44,13 +62,21 @@ class Api {
     changeLikeCardStatus (cardID, like) {
         if (like) {
             return fetch(this._baseUrl + '/cards/' + cardID + '/likes', {
-                headers: this._headers,
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
+                },
                 method: "DELETE"
             })
             .then(res => res.ok ? res.json() : Promise.reject('Error' + res.statusText))
         } else {
             return fetch(this._baseUrl + '/cards/' + cardID + '/likes', {
-                headers: this._headers,
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
+                },
                 method: "PUT"
             })
             .then(res => res.ok ? res.json() : Promise.reject('Error' + res.statusText))
@@ -59,7 +85,11 @@ class Api {
 
     setUserInfo(data) {
         return fetch(this._baseUrl + '/users/me', {
-            headers: this._headers,
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
+            },
             method: "PATCH",
             body: JSON.stringify({
                 name: data.name,
@@ -71,7 +101,11 @@ class Api {
 
     setUserAvatar(avatar) {
         return fetch(this._baseUrl + '/users/me/avatar', {
-            headers: this._headers,
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
+            },
             method: "PATCH",
             body: JSON.stringify({
                 avatar
@@ -83,12 +117,7 @@ class Api {
 }
 
 const api = new Api({
-    baseUrl: "https://api.tzpract.students.nomoreparties.site",
-    headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`,
-    }
+    baseUrl: "http://localhost:3000",
 });
 
 export default api;

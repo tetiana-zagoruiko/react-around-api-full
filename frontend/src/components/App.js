@@ -39,14 +39,6 @@ function App() {
   const history = useHistory();
 
   React.useEffect(() => {
-    api.getUserInfo()
-      .then(res => {
-        setCurrentUser(res.data);
-      })
-      .catch(err => console.log(err));
-  }, [])
-
-  React.useEffect(() => {
     const jwt = localStorage.getItem('jwt');
     if (jwt) {
       auth.checkToken(jwt)
@@ -60,6 +52,11 @@ function App() {
           setCards(res);
         })
         .catch(err => console.log(err))
+      api.getUserInfo()
+        .then(res => {
+          setCurrentUser(res.data);
+        })
+        .catch(err => console.log(err));
     }
   }, [loggedIn, history]);
 
@@ -141,7 +138,7 @@ function App() {
   function handleRegister(password, email) {
     auth.register(password, email)
       .then((res) => {
-        if (!res || res.statusCode === 400 || res.statusCode === 500) {
+        if (!res || res.statusCode === 400 || res.statusCode === 500 || res.message === "An error occurred on the server") {
           openingInfoTooltip(false);
         } else {
           openingInfoTooltip(true);
@@ -157,13 +154,7 @@ function App() {
       .then((data) => {
         if (data[1]) {
           localStorage.setItem("jwt", data[1]);
-          api.getCardList()
-            .then(res => {
-              setCards(res);
-            })
-            .catch(err => console.log(err))
           setLoggedIn(true);
-          setCurrentUser(data[0]);
           history.push("/")
         } else {
           openingInfoTooltip(false);
