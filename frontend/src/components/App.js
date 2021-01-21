@@ -55,20 +55,31 @@ function App() {
         history.push("/");
       })
       .catch(err => console.log(err));
+      api.getCardList()
+        .then(res => {
+          setCards(res);
+        })
+        .catch(err => console.log(err))
     }
   }, [loggedIn, history]);
 
   const onSignOut = () => {
     localStorage.removeItem('jwt');
+    setCards([]);
     setCurrentUser({});
     setLoggedIn(false);
   }
 
   function handleCardLike(card) {
+    console.log(card.card.likes);
+    console.log(currentUser._id);
     const isLiked = card.card.likes.some(i => i === currentUser._id);
+    console.log(isLiked);
     api.changeLikeCardStatus(card.card._id, !isLiked)
       .then((newCard) => {
-      const newCards = cards.map((c) => c._id === newCard.data._id ? newCard.data : c);
+      console.log(newCard.data);
+      console.log(cards);
+        const newCards = cards.map((c) => c._id === newCard.data._id ? newCard.data : c);
       setCards(newCards);
     })
       .catch(err => console.log(err));
