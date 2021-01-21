@@ -83,7 +83,7 @@ class Api {
 }
 
 const api = new Api({
-    baseUrl: "http://api.tzpract.students.nomoreparties.site",
+    baseUrl: "https://api.tzpract.students.nomoreparties.site",
     headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
