@@ -44,11 +44,6 @@ function App() {
         setCurrentUser(res.data);
       })
       .catch(err => console.log(err));
-    api.getCardList()
-      .then(res => {
-        setCards(res);
-      })
-      .catch(err => console.log(err))
   }, [])
 
   React.useEffect(() => {
@@ -156,6 +151,11 @@ function App() {
       .then((data) => {
         if (data[1]) {
           localStorage.setItem("jwt", data[1]);
+          api.getCardList()
+            .then(res => {
+              setCards(res);
+            })
+            .catch(err => console.log(err))
           setLoggedIn(true);
           setCurrentUser(data[0]);
           history.push("/")
