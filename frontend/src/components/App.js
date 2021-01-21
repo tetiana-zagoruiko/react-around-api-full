@@ -102,7 +102,7 @@ function App() {
     api.setUserInfo({ name, title})
       .then(res => {
         closeAllPopups();
-        setCurrentUser(res);
+        setCurrentUser(res.data);
       })
       .catch(err => console.log(err))
   }
