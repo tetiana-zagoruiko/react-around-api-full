@@ -10,9 +10,21 @@ cardsRouter.post('/', celebrate({
     }),
 }), postCard); 
 cardsRouter.get('/', getAllCards);
-cardsRouter.delete('/:id', deleteCardByID);
-cardsRouter.put('/:id/likes', likeCard);
-cardsRouter.delete('/:id/likes', dislikeCard);
+cardsRouter.delete('/:id', celebrate({
+    params: Joi.object().keys({
+        id: Joi.string().alphanum().hex(),
+    })
+}), deleteCardByID);
+cardsRouter.put('/:id/likes', celebrate({
+    params: Joi.object().keys({
+        id: Joi.string().alphanum().hex(),
+    })
+}), likeCard);
+cardsRouter.delete('/:id/likes', celebrate({
+    params: Joi.object().keys({
+        id: Joi.string().alphanum().hex(),
+    })
+}), dislikeCard);
 
 
 module.exports = cardsRouter;

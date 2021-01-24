@@ -16,9 +16,6 @@ module.exports.createUser = (req, res, next) => {
       avatar: "https://pictures.s3.yandex.net/resources/avatar_1604080799.jpg",
     }))
     .then((user) => {
-      if (!user) {
-        throw new InvalidDataError('Ivalid data passed');
-      }
       res.send(user)
     })
     .catch(next);
@@ -29,6 +26,9 @@ module.exports.login = (req, res, next) => {
   const { email, password } = req.body;
   return User.findUserByCredentials(email, password)
     .then((user) => {
+      if (!user) {
+        throw new NoRightsError('Please enter valid email and password');
+      }
       const token = jwt.sign({ _id: user._id }, 'super-strong-secret', { expiresIn: '7d' });
       res.send([user, token] );
     })

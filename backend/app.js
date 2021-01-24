@@ -7,6 +7,8 @@ const { requestLogger, errorLogger } = require('./middlewares/logger');
 const { PORT = 3000 } = process.env;
 const app = express();
 const { errors } = require('celebrate');
+const { celebrate, Joi } = require('celebrate');
+const NotFoundError = require('./errors/errors');
 
 const usersRouter = require('./routes/users');
 const cardsRouter = require('./routes/cards');
@@ -34,12 +36,22 @@ app.get('/crash-test', () => {
   }, 0);
 }); 
 
-app.post('/signin', login);
-app.post('/signup', createUser);
+app.post('/signin', celebrate({
+  body: Joi.object().keys({
+    email: Joi.string().email().required(),
+    password: Joi.string().required(),
+  }),
+}), login);
+app.post('/signup', celebrate({
+  body: Joi.object().keys({
+    email: Joi.string().email().required(),
+    password: Joi.string().required(),
+  }),
+}), createUser);
 app.use('/users', auth, usersRouter);
 app.use('/cards', auth, cardsRouter);
 app.get('*', (req, res) => {
-  res.status(404).send({ message: "Requested resource not found" });
+  throw new NotFoundError('Requested resource not found')
 })
 
 app.use(errorLogger);
@@ -52,6 +64,16 @@ app.use(((req, res, next) => {
 })); 
 
 app.use((err, req, res, next) => {
+  if (err.code === 11000) {
+    const { statusCode = 409, message } = err;
+    res
+      .status(statusCode)
+      .send({
+        message: statusCode === 409
+          ? 'Email already exists in the database'
+          : message
+      });
+  };
   const { statusCode = 500, message } = err;
   res
     .status(statusCode)

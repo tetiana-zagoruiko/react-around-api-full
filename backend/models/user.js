@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
 const bcrypt = require('bcryptjs');
+const NoRightsError = require('../errors/errors');
 
 
 const userSchema = new mongoose.Schema({
@@ -37,17 +38,18 @@ const userSchema = new mongoose.Schema({
   }
 });
 
+
 userSchema.statics.findUserByCredentials = function (email, password) {
   return this.findOne({ email }).select('+password')
     .then((user) => {
       if (!user) {
-        return Promise.reject(new Error('Incorrect email or password'));
+        throw new NoRightsError('There is no such email in the database');
       }
 
       return bcrypt.compare(password, user.password)
         .then((matched) => {
           if (!matched) {
-            return Promise.reject(new Error('Incorrect email or password'));
+            throw new NoRightsError('Email and passwords don\'t match');
           }
 
           return user;
@@ -55,7 +57,11 @@ userSchema.statics.findUserByCredentials = function (email, password) {
     });
 };
 
-
+userSchema.methods.toJSON = function () {
+  var obj = this.toObject();
+  delete obj.password;
+  return obj;
+}
 
 
 module.exports = mongoose.model('user', userSchema);

@@ -5,7 +5,11 @@ const { celebrate, Joi } = require('celebrate');
 
 usersRouter.get('/', getAllUsers);
 usersRouter.get('/me', getUserInfo);
-usersRouter.get('/:id', getUserByID);
+usersRouter.get('/:id', celebrate({
+    params: Joi.object().keys({
+        id: Joi.string().alphanum().hex(),
+    })
+}), getUserByID);
 usersRouter.patch('/me', celebrate({
     body: Joi.object().keys({
         name: Joi.string().min(2).max(30),
