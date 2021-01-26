@@ -1,10 +1,9 @@
 const express = require('express');
-const router = express.Router();
 const User = require('../models/user');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const InvalidDataError = require('../errors/errors');
-const NotFoundError = require('../errors/errors');
+const {NotFoundError} = require('../errors/errors');
+const {NoRightsError} = require('../errors/errors');
 
 module.exports.createUser = (req, res, next) => {
   bcrypt.hash(req.body.password, 10)
@@ -24,7 +23,7 @@ module.exports.createUser = (req, res, next) => {
 
 module.exports.login = (req, res, next) => {
   const { email, password } = req.body;
-  return User.findUserByCredentials(email, password)
+  return User.findUserByCredentials(email, password, next)
     .then((user) => {
       if (!user) {
         throw new NoRightsError('Please enter valid email and password');

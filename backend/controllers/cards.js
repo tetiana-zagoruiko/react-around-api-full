@@ -1,10 +1,7 @@
 const express = require('express');
-const router = express.Router();
 const Card = require('../models/card');
-const cardsRouter = require('../routes/cards');
-const NoRightsError = require('../errors/errors');
-const InvalidDataError = require('../errors/errors');
-const NotFoundError = require('../errors/errors');
+const {NoRightsError} = require('../errors/errors');
+const {NotFoundError} = require('../errors/errors');
 
 module.exports.postCard = (req, res, next) => {
   const { name, link } = req.body;

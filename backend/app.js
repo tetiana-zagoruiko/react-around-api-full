@@ -8,7 +8,7 @@ const { PORT = 3000 } = process.env;
 const app = express();
 const { errors } = require('celebrate');
 const { celebrate, Joi } = require('celebrate');
-const NotFoundError = require('./errors/errors');
+const {NotFoundError} = require('./errors/errors');
 
 const usersRouter = require('./routes/users');
 const cardsRouter = require('./routes/cards');

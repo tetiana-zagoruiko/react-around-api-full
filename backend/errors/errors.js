@@ -1,10 +1,3 @@
-class NotFoundError extends Error {
-  constructor(message) {
-    super(message);
-    this.statusCode = 404;
-  }
-}
-
 class NoRightsError extends Error {
   constructor(message) {
     super(message);
@@ -19,8 +12,15 @@ class InvalidDataError extends Error {
   }
 }
 
+class NotFoundError extends Error {
+  constructor(message) {
+    super(message);
+    this.statusCode = 404;
+  }
+}
 
-
-module.exports = NotFoundError; 
-module.exports = NoRightsError; 
-module.exports = InvalidDataError; 
+module.exports = {
+  NoRightsError,
+  NotFoundError,
+  InvalidDataError
+};

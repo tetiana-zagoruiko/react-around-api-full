@@ -1,8 +1,6 @@
 const mongoose = require('mongoose');
-const validator = require('validator');
 const bcrypt = require('bcryptjs');
-const NoRightsError = require('../errors/errors');
-
+const {NoRightsError} = require('../errors/errors');
 
 const userSchema = new mongoose.Schema({
   name: {
@@ -34,7 +32,7 @@ const userSchema = new mongoose.Schema({
 });
 
 
-userSchema.statics.findUserByCredentials = function (email, password) {
+userSchema.statics.findUserByCredentials = function (email, password, next) {
   return this.findOne({ email }).select('+password')
     .then((user) => {
       if (!user) {
@@ -48,9 +46,9 @@ userSchema.statics.findUserByCredentials = function (email, password) {
           }
           return user;
         })
-        .catch(err => next(err));
+        .catch(next);
     })
-    .catch(err => next(err));
+    .catch(next);
 };
 
 userSchema.methods.toJSON = function () {
