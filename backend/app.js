@@ -64,7 +64,8 @@ app.use(((req, res, next) => {
 })); 
 
 app.use((err, req, res, next) => {
-  if (err.code === 11000) {
+  console.log(err);
+  if (error.name === 'MongoError' && error.code === 11000) {
     const { statusCode = 409, message } = err;
     res
       .status(statusCode)

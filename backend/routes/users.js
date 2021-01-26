@@ -7,7 +7,7 @@ usersRouter.get('/', getAllUsers);
 usersRouter.get('/me', getUserInfo);
 usersRouter.get('/:id', celebrate({
     params: Joi.object().keys({
-        id: Joi.string().alphanum().hex(),
+        id: Joi.string().hex().length(24),
     })
 }), getUserByID);
 usersRouter.patch('/me', celebrate({

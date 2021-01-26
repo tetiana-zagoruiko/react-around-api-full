@@ -138,6 +138,7 @@ function App() {
   function handleRegister(password, email) {
     auth.register(password, email)
       .then((res) => {
+        console.log(res);
         if (!res || res.statusCode === 400 || res.statusCode === 500 || res.message === "An error occurred on the server" || res.statusCode === 409 ) {
           openingInfoTooltip(false);
         } else {
