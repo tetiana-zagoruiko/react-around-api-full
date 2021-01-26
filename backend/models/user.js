@@ -20,16 +20,11 @@ const userSchema = new mongoose.Schema({
   avatar: {
     type: String,
     default: "https://pictures.s3.yandex.net/resources/avatar_1604080799.jpg",
-    validate: /(^https?:\/\/)(w{3}\.)?\w[\w-]{1,}\.\w[\w\/]{1,}\/?/gi 
   },
   email: {
     type: String,
     required: true,
     unique: true,
-    validate: {
-      validator: email => validator.isEmail(email),
-      message: '{VALUE} is not a valid email'
-    }
   },
   password: {
     type: String,
@@ -51,10 +46,11 @@ userSchema.statics.findUserByCredentials = function (email, password) {
           if (!matched) {
             throw new NoRightsError('Email and passwords don\'t match');
           }
-
           return user;
-        });
-    });
+        })
+        .catch(err => next(err));
+    })
+    .catch(err => next(err));
 };
 
 userSchema.methods.toJSON = function () {
