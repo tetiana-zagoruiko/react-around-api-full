@@ -64,10 +64,11 @@ app.use(((req, res, next) => {
 })); 
 
 app.use((err, req, res, next) => {
+  console.log(err);
   if (err.name === 'MongoError' && err.code === 11000) {
     const { statusCode = 409, message } = err;
     res
-      .status(err.statusCode)
+      .status(409)
       .send({
         message: statusCode === 409
           ? 'Email already exists in the database'
